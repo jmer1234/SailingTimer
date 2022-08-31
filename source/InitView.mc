@@ -23,8 +23,8 @@ class InitView extends BaseView {
 		timerView = new TimerView();
 		timer = new Timer.Timer();
 		timer.start(method(:updateTime), 1000, true);
-		var modeLabel = View.findDrawableById("ModeLabel");
-		var offsetLabel = View.findDrawableById("OffsetTimerLabel");
+		var modeLabel = View.findDrawableById("ModeLabel") as Ui.Text;
+		var offsetLabel = View.findDrawableById("OffsetTimerLabel") as Ui.Text;
 		if(mode == MODE_PURSUIT) {
 			modeLabel.setText(Rez.Strings.ModeLabel_pursuit);
 			modeLabel.setColor(Gfx.COLOR_RED);
@@ -34,10 +34,11 @@ class InitView extends BaseView {
 			modeLabel.setColor(Gfx.COLOR_BLUE);
 			offsetLabel.setText("");
 		}
-		Ui.requestUpdate();
+		//Ui.requestUpdate();
+		Ui.pushView(timerView, new TimerDelegate(), Ui.SLIDE_UP);
 	}
 	
-	function updateTime() {
+	function updateTime() as Void {
 		Ui.requestUpdate();
 	}
 
@@ -49,8 +50,8 @@ class InitView extends BaseView {
 	}
 	
 	function goPursuit() {
-		var modeLabel = View.findDrawableById("ModeLabel");
-		var offsetLabel = View.findDrawableById("OffsetTimerLabel");
+		var modeLabel = View.findDrawableById("ModeLabel") as Ui.Text;
+		var offsetLabel = View.findDrawableById("OffsetTimerLabel") as Ui.Text;
 		modeLabel.setText(Rez.Strings.ModeLabel_pursuit);
 		modeLabel.setColor(Gfx.COLOR_RED);
 		offsetLabel.setText(timerView.timerString(true));
@@ -73,6 +74,7 @@ class InitDelegate extends STBehaviorDelegate {
 	function onMenu() {
 		mode = MODE_STANDARD;
 		Ui.pushView(new Rez.Menus.TimerOptions(), new TimerOptionsDelegate(), Ui.SLIDE_UP);
+		return true;
 	}
 
 }
